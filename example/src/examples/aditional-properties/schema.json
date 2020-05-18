@@ -14,6 +14,11 @@
     "lastName": {
       "type": "string",
       "title": "Last name"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "title": "Pick date"
     }
   }
 }
