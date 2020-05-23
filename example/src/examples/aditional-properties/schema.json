@@ -19,6 +19,10 @@
       "type": "string",
       "format": "date",
       "title": "Pick date"
+    },
+    "color": {
+      "type": "string",
+      "title": "Pick a color"
     }
   }
 }
