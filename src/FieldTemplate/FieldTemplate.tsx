@@ -4,38 +4,34 @@ import { FieldTemplateProps } from 'react-jsonschema-form';
 
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 
 const FieldTemplate = ({
   id,
   children,
   displayLabel,
+  required,
   rawErrors = [],
   rawHelp,
   rawDescription,
 }: FieldTemplateProps) => {
+  const helpText =
+    rawErrors && rawErrors.length > 0
+      ? rawErrors.map((error, ind) => <span key={ind}>{error}</span>)
+      : rawHelp;
   return (
-    <FormControl fullWidth={true} error={rawErrors.length ? true : false}>
+    <FormControl
+      fullWidth={true}
+      required={required}
+      error={rawErrors.length ? true : false}
+    >
       {children}
       {displayLabel && rawDescription ? (
         <Typography variant="caption" color="textSecondary">
           {rawDescription}
         </Typography>
       ) : null}
-      {rawErrors.length > 0 && (
-        <List dense={true}>
-          {rawErrors.map((error, i: number) => {
-            return (
-              <ListItem key={i}>
-                <FormHelperText id={id}>- {error}</FormHelperText>
-              </ListItem>
-            );
-          })}
-        </List>
-      )}
-      {rawHelp && <FormHelperText id={id}>{rawHelp}</FormHelperText>}
+      {helpText && <FormHelperText id={id}>{helpText}</FormHelperText>}
     </FormControl>
   );
 };
