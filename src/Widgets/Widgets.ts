@@ -5,7 +5,6 @@ import DateWidget from '../DateWidget/DateWidget';
 import PasswordWidget from '../PasswordWidget/PasswordWidget';
 import RadioWidget from '../RadioWidget/RadioWidget';
 import RangeWidget from '../RangeWidget/RangeWidget';
-// import RichTextWidget from '../RichTextWidget/RichTextWidget';
 import SelectWidget from '../SelectWidget/SelectWidget';
 import TextareaWidget from '../TextareaWidget/TextareaWidget';
 import TextWidget from '../TextWidget/TextWidget';
@@ -20,7 +19,6 @@ export default {
   PasswordWidget,
   RadioWidget,
   RangeWidget,
-  // RichTextWidget,
   SelectWidget,
   TextareaWidget,
   TextWidget,
