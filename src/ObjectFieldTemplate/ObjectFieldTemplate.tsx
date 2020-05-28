@@ -7,7 +7,7 @@ import { ObjectFieldTemplateProps } from 'react-jsonschema-form';
 
 const useStyles = makeStyles({
   root: {
-    marginTop: 10,
+    flexDirection: 'row',
   },
 });
 
@@ -22,6 +22,8 @@ const ObjectFieldTemplate = ({
   idSchema,
 }: ObjectFieldTemplateProps) => {
   const classes = useStyles();
+
+  console.log(properties);
 
   return (
     <>
@@ -39,16 +41,23 @@ const ObjectFieldTemplate = ({
         />
       )}
       <Grid container={true} spacing={2} className={classes.root}>
-        {properties.map((element: any, index: number) => (
-          <Grid
-            item={true}
-            xs={12}
-            key={index}
-            style={{ marginBottom: '10px' }}
-          >
-            {element.content}
-          </Grid>
-        ))}
+        {properties.map((element: any, index: number) =>
+          element.content.props.uiSchema['ui:widget'] === 'hidden' ? (
+            <div key={index}></div>
+          ) : (
+            <Grid
+              item={true}
+              xs={
+                (uiSchema[element.name] &&
+                  uiSchema[element.name]['ui:width']) ||
+                12
+              }
+              key={index}
+            >
+              {element.content}
+            </Grid>
+          )
+        )}
       </Grid>
     </>
   );

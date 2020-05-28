@@ -14,6 +14,7 @@ const CheckboxWidget = (props: WidgetProps) => {
     disabled,
     readonly,
     label,
+    options,
     autofocus,
     onChange,
     onBlur,
@@ -28,8 +29,13 @@ const CheckboxWidget = (props: WidgetProps) => {
     target: { value },
   }: React.FocusEvent<HTMLButtonElement>) => onFocus(id, value);
 
+  let labelPlacement: 'start' | 'end' | 'top' | 'bottom' = 'end';
+  if (options.labelPlacement === 'start') {
+    labelPlacement = 'start';
+  }
+
   return (
-    <FormControl fullWidth={true} required={required}>
+    <FormControl fullWidth={true} required={required} margin={'dense'}>
       <FormControlLabel
         control={
           <Checkbox
@@ -43,6 +49,7 @@ const CheckboxWidget = (props: WidgetProps) => {
             onFocus={_onFocus}
           />
         }
+        labelPlacement={labelPlacement}
         label={label}
       />
     </FormControl>
