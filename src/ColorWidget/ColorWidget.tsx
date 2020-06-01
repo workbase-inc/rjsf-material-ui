@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, CSSProperties } from 'react';
 
 import _ from 'lodash';
 import { WidgetProps } from 'react-jsonschema-form';
@@ -57,7 +57,7 @@ const ColorWidget = ({
     purple,
   ];
 
-  const getSwatchColors = (_color: String) => {
+  const getSwatchColors = (_color: string): string[][] | undefined => {
     for (let i = 0; i < colors.length; i++) {
       if (colors[i][500] == _color || isShade(colors[i], _color)) {
         return [
@@ -71,7 +71,7 @@ const ColorWidget = ({
         ];
       }
     }
-    return null;
+    return undefined;
   };
 
   const isShade = (color: any, _color: String): boolean => {
@@ -96,7 +96,7 @@ const ColorWidget = ({
     position: 'absolute',
     left: '275px',
     top: '20px',
-  };
+  } as CSSProperties;
 
   return (
     <FormControl fullWidth={true} required={required} disabled={disabled}>
