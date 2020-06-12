@@ -868,6 +868,7 @@ var ColorWidget = function ColorWidget(_ref) {
     borderRadius: '5px',
     marginTop: '5px',
     opacity: disabled ? 0.5 : 1,
+    border: '1px solid #DCDCDC',
   };
   var swatchStyle = {
     position: 'absolute',

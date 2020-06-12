@@ -10,7 +10,6 @@ import {
 import { TwitterPicker as BasicPicker, SwatchesPicker } from 'react-color';
 import {
   red,
-  pink,
   purple,
   lightBlue,
   cyan,
@@ -52,7 +51,6 @@ const ColorWidget = ({
     lightBlue,
     cyan,
     grey,
-    pink,
     red,
     purple,
   ];
@@ -90,6 +88,7 @@ const ColorWidget = ({
     borderRadius: '5px',
     marginTop: '5px',
     opacity: disabled ? 0.5 : 1,
+    border: '1px solid #DCDCDC',
   };
 
   const swatchStyle = {
