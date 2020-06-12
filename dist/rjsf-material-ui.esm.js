@@ -1,58 +1,66 @@
-'use strict';
-
-function _interopDefault(ex) {
-  return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex;
-}
-
-var reactJsonschemaForm = require('react-jsonschema-form');
-var React = require('react');
-var React__default = _interopDefault(React);
-var utils = require('react-jsonschema-form/lib/utils');
-var Box = _interopDefault(require('@material-ui/core/Box'));
-var Grid = _interopDefault(require('@material-ui/core/Grid'));
-var Paper = _interopDefault(require('@material-ui/core/Paper'));
-var Button = _interopDefault(require('@material-ui/core/Button'));
-var AddIcon = _interopDefault(require('@material-ui/icons/Add'));
-var MUIIconButton = _interopDefault(require('@material-ui/core/IconButton'));
-var ArrowUpward = _interopDefault(require('@material-ui/icons/ArrowUpward'));
-var ArrowDownward = _interopDefault(
-  require('@material-ui/icons/ArrowDownward')
-);
-var Remove = _interopDefault(require('@material-ui/icons/Remove'));
-var Tooltip = _interopDefault(require('@material-ui/core/Tooltip'));
-var Typography = _interopDefault(require('@material-ui/core/Typography'));
-var List = _interopDefault(require('@material-ui/core/List'));
-var ListItem = _interopDefault(require('@material-ui/core/ListItem'));
-var ListItemIcon = _interopDefault(require('@material-ui/core/ListItemIcon'));
-var ErrorIcon = _interopDefault(require('@material-ui/icons/Error'));
-var ListItemText = _interopDefault(require('@material-ui/core/ListItemText'));
-var styles = require('@material-ui/styles');
-var Divider = _interopDefault(require('@material-ui/core/Divider'));
-var FormControl = _interopDefault(require('@material-ui/core/FormControl'));
-var FormHelperText = _interopDefault(
-  require('@material-ui/core/FormHelperText')
-);
-var Checkbox = _interopDefault(require('@material-ui/core/Checkbox'));
-var FormControlLabel = _interopDefault(
-  require('@material-ui/core/FormControlLabel')
-);
-var FormLabel = _interopDefault(require('@material-ui/core/FormLabel'));
-var FormGroup = _interopDefault(require('@material-ui/core/FormGroup'));
-var _ = _interopDefault(require('lodash'));
-var core = require('@material-ui/core');
-var reactColor = require('react-color');
-var _$1 = require('@material-ui/core/colors/');
-var pickers = require('@material-ui/pickers');
-var moment = _interopDefault(require('moment'));
-var TextField = _interopDefault(require('@material-ui/core/TextField'));
-var Radio = _interopDefault(require('@material-ui/core/Radio'));
-var RadioGroup = _interopDefault(require('@material-ui/core/RadioGroup'));
-var Slider = _interopDefault(require('@material-ui/core/Slider'));
-var MenuItem = _interopDefault(require('@material-ui/core/MenuItem'));
-var Select = _interopDefault(require('@material-ui/core/Select'));
-var InputLabel = _interopDefault(require('@material-ui/core/InputLabel'));
-var Autocomplete = _interopDefault(require('@material-ui/lab/Autocomplete'));
-var Input = _interopDefault(require('@material-ui/core/Input'));
+import { withTheme } from 'react-jsonschema-form';
+import React, { useState } from 'react';
+import {
+  getDefaultRegistry,
+  isMultiSelect,
+  rangeSpec,
+  asNumber,
+  guessType,
+} from 'react-jsonschema-form/lib/utils';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import MUIIconButton from '@material-ui/core/IconButton';
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Remove from '@material-ui/icons/Remove';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ErrorIcon from '@material-ui/icons/Error';
+import ListItemText from '@material-ui/core/ListItemText';
+import { makeStyles } from '@material-ui/styles';
+import Divider from '@material-ui/core/Divider';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import _ from 'lodash-es';
+import {
+  FormControl as FormControl$1,
+  FormHelperText as FormHelperText$1,
+  ClickAwayListener,
+  TextField as TextField$1,
+} from '@material-ui/core';
+import { TwitterPicker, SwatchesPicker } from 'react-color';
+import {
+  orange,
+  lightGreen,
+  green,
+  yellow,
+  lightBlue,
+  cyan,
+  grey,
+  red,
+  purple,
+} from '@material-ui/core/colors/';
+import { KeyboardDatePicker } from '@material-ui/pickers';
+import moment from 'moment';
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Slider from '@material-ui/core/Slider';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Input from '@material-ui/core/Input';
 
 function _extends() {
   _extends =
@@ -94,22 +102,22 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 
 var AddButton = function AddButton(props) {
-  return React__default.createElement(
+  return React.createElement(
     Button,
     Object.assign({}, props, {
       color: 'secondary',
     }),
-    React__default.createElement(AddIcon, null),
+    React.createElement(AddIcon, null),
     ' ',
     props.label || 'Add Item'
   );
 };
 
 var mappings = {
-  remove: /*#__PURE__*/ React__default.createElement(Remove, null),
-  plus: /*#__PURE__*/ React__default.createElement(AddIcon, null),
-  'arrow-up': /*#__PURE__*/ React__default.createElement(ArrowUpward, null),
-  'arrow-down': /*#__PURE__*/ React__default.createElement(ArrowDownward, null),
+  remove: /*#__PURE__*/ React.createElement(Remove, null),
+  plus: /*#__PURE__*/ React.createElement(AddIcon, null),
+  'arrow-up': /*#__PURE__*/ React.createElement(ArrowUpward, null),
+  'arrow-down': /*#__PURE__*/ React.createElement(ArrowDownward, null),
 };
 
 var IconButton = function IconButton(props) {
@@ -122,12 +130,12 @@ var IconButton = function IconButton(props) {
       'tooltip',
     ]);
 
-  return React__default.createElement(
+  return React.createElement(
     Tooltip,
     {
       title: tooltip,
     },
-    React__default.createElement(
+    React.createElement(
       MUIIconButton,
       Object.assign({}, otherProps, {
         size: 'small',
@@ -141,15 +149,15 @@ var ArrayFieldTemplate = function ArrayFieldTemplate(props) {
   var schema = props.schema,
     _props$registry = props.registry,
     registry =
-      _props$registry === void 0 ? utils.getDefaultRegistry() : _props$registry;
+      _props$registry === void 0 ? getDefaultRegistry() : _props$registry;
 
-  if (utils.isMultiSelect(schema, registry.definitions)) {
-    return React__default.createElement(
+  if (isMultiSelect(schema, registry.definitions)) {
+    return React.createElement(
       DefaultFixedArrayFieldTemplate,
       Object.assign({}, props)
     );
   } else {
-    return React__default.createElement(
+    return React.createElement(
       DefaultNormalArrayFieldTemplate,
       Object.assign({}, props)
     );
@@ -163,11 +171,11 @@ var ArrayFieldTitle = function ArrayFieldTitle(_ref) {
     required = _ref.required;
 
   if (!title) {
-    return React__default.createElement('div', null);
+    return React.createElement('div', null);
   }
 
   var id = idSchema.$id + '__title';
-  return React__default.createElement(TitleField, {
+  return React.createElement(TitleField, {
     id: id,
     title: title,
     required: required,
@@ -180,11 +188,11 @@ var ArrayFieldDescription = function ArrayFieldDescription(_ref2) {
     description = _ref2.description;
 
   if (!description) {
-    return React__default.createElement('div', null);
+    return React.createElement('div', null);
   }
 
   var id = idSchema.$id + '__description';
-  return React__default.createElement(DescriptionField, {
+  return React.createElement(DescriptionField, {
     id: id,
     description: description,
   });
@@ -197,14 +205,14 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
     paddingRight: 6,
     fontWeight: 'bold',
   };
-  return React__default.createElement(
+  return React.createElement(
     Grid,
     {
       container: true,
       key: props.index,
       alignItems: 'center',
     },
-    React__default.createElement(
+    React.createElement(
       Grid,
       {
         item: true,
@@ -212,17 +220,17 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
       },
       props.uiSchema['ui:nobox']
         ? props.children
-        : React__default.createElement(
+        : React.createElement(
             Box,
             {
               mb: 2,
             },
-            React__default.createElement(
+            React.createElement(
               Paper,
               {
                 elevation: 2,
               },
-              React__default.createElement(
+              React.createElement(
                 Box,
                 {
                   p: 2,
@@ -233,19 +241,19 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
           )
     ),
     props.hasToolbar &&
-      React__default.createElement(
+      React.createElement(
         Grid,
         {
           item: true,
         },
-        React__default.createElement(
+        React.createElement(
           Grid,
           {
             container: true,
             direction: 'column',
           },
           (props.hasMoveUp || props.hasMoveDown) &&
-            React__default.createElement(
+            React.createElement(
               IconButton,
               {
                 icon: 'arrow-up',
@@ -256,10 +264,10 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
                 disabled: props.disabled || props.readonly || !props.hasMoveUp,
                 onClick: props.onReorderClick(props.index, props.index - 1),
               },
-              React__default.createElement(ArrowUpward, null)
+              React.createElement(ArrowUpward, null)
             ),
           (props.hasMoveUp || props.hasMoveDown) &&
-            React__default.createElement(
+            React.createElement(
               IconButton,
               {
                 icon: 'arrow-down',
@@ -270,10 +278,10 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
                   props.disabled || props.readonly || !props.hasMoveDown,
                 onClick: props.onReorderClick(props.index, props.index + 1),
               },
-              React__default.createElement(ArrowDownward, null)
+              React.createElement(ArrowDownward, null)
             ),
           props.hasRemove &&
-            React__default.createElement(
+            React.createElement(
               IconButton,
               {
                 icon: 'remove',
@@ -283,7 +291,7 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
                 disabled: props.disabled || props.readonly,
                 onClick: props.onDropIndexClick(props.index),
               },
-              React__default.createElement(Remove, null)
+              React.createElement(Remove, null)
             )
         )
       )
@@ -293,12 +301,12 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
 var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
   props
 ) {
-  return React__default.createElement(
+  return React.createElement(
     'fieldset',
     {
       className: props.className,
     },
-    React__default.createElement(ArrayFieldTitle, {
+    React.createElement(ArrayFieldTitle, {
       key: 'array-field-title-' + props.idSchema.$id,
       TitleField: props.TitleField,
       idSchema: props.idSchema,
@@ -306,7 +314,7 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
       required: props.required,
     }),
     (props.uiSchema['ui:description'] || props.schema.description) &&
-      React__default.createElement(
+      React.createElement(
         'div',
         {
           className: 'field-description',
@@ -314,7 +322,7 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
         },
         props.uiSchema['ui:description'] || props.schema.description
       ),
-    React__default.createElement(
+    React.createElement(
       'div',
       {
         className: 'row array-item-list',
@@ -323,7 +331,7 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
       props.items && props.items.map(DefaultArrayItem)
     ),
     props.canAdd &&
-      React__default.createElement(AddButton, {
+      React.createElement(AddButton, {
         className: 'array-item-add',
         onClick: props.onAddClick,
         disabled: props.disabled || props.readonly,
@@ -335,17 +343,17 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
 var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
   props
 ) {
-  return React__default.createElement(
+  return React.createElement(
     Paper,
     {
       elevation: 2,
     },
-    React__default.createElement(
+    React.createElement(
       Box,
       {
         p: 2,
       },
-      React__default.createElement(ArrayFieldTitle, {
+      React.createElement(ArrayFieldTitle, {
         key: 'array-field-title-' + props.idSchema.$id,
         TitleField: props.TitleField,
         idSchema: props.idSchema,
@@ -353,14 +361,14 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
         required: props.required,
       }),
       (props.uiSchema['ui:description'] || props.schema.description) &&
-        React__default.createElement(ArrayFieldDescription, {
+        React.createElement(ArrayFieldDescription, {
           key: 'array-field-description-' + props.idSchema.$id,
           DescriptionField: props.DescriptionField,
           idSchema: props.idSchema,
           description:
             props.uiSchema['ui:description'] || props.schema.description,
         }),
-      React__default.createElement(
+      React.createElement(
         Grid,
         {
           container: true,
@@ -375,23 +383,23 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
             );
           }),
         props.canAdd &&
-          React__default.createElement(
+          React.createElement(
             Grid,
             {
               container: true,
               justify: 'flex-end',
             },
-            React__default.createElement(
+            React.createElement(
               Grid,
               {
                 item: true,
               },
-              React__default.createElement(
+              React.createElement(
                 Box,
                 {
                   mt: 2,
                 },
-                React__default.createElement(
+                React.createElement(
                   AddButton,
                   Object.assign(
                     {
@@ -414,18 +422,18 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
 
 var ErrorList = function ErrorList(_ref) {
   var errors = _ref.errors;
-  return React__default.createElement(
+  return React.createElement(
     Paper,
     {
       elevation: 2,
     },
-    React__default.createElement(
+    React.createElement(
       Box,
       {
         mb: 2,
         p: 2,
       },
-      React__default.createElement(
+      React.createElement(
         Typography,
         {
           variant: 'h6',
@@ -433,25 +441,25 @@ var ErrorList = function ErrorList(_ref) {
         },
         'Errors'
       ),
-      React__default.createElement(
+      React.createElement(
         List,
         {
           dense: true,
         },
         errors.map(function(error, i) {
-          return React__default.createElement(
+          return React.createElement(
             ListItem,
             {
               key: i,
             },
-            React__default.createElement(
+            React.createElement(
               ListItemIcon,
               null,
-              React__default.createElement(ErrorIcon, {
+              React.createElement(ErrorIcon, {
                 color: 'error',
               })
             ),
-            React__default.createElement(ListItemText, {
+            React.createElement(ListItemText, {
               primary: error.stack,
             })
           );
@@ -461,7 +469,7 @@ var ErrorList = function ErrorList(_ref) {
   );
 };
 
-var useStyles = /*#__PURE__*/ styles.makeStyles({
+var useStyles = /*#__PURE__*/ makeStyles({
   root: {
     marginTop: 5,
   },
@@ -472,7 +480,7 @@ var DescriptionField = function DescriptionField(_ref) {
 
   if (description) {
     var classes = useStyles();
-    return React__default.createElement(
+    return React.createElement(
       Typography,
       {
         variant: 'subtitle2',
@@ -487,23 +495,23 @@ var DescriptionField = function DescriptionField(_ref) {
 
 var TitleField = function TitleField(_ref) {
   var title = _ref.title;
-  return React__default.createElement(
-    React__default.Fragment,
+  return React.createElement(
+    React.Fragment,
     null,
-    React__default.createElement(
+    React.createElement(
       Box,
       {
         mb: 1,
         mt: 1,
       },
-      React__default.createElement(
+      React.createElement(
         Typography,
         {
           variant: 'h6',
         },
         title
       ),
-      React__default.createElement(Divider, null)
+      React.createElement(Divider, null)
     )
   );
 };
@@ -525,7 +533,7 @@ var FieldTemplate = function FieldTemplate(_ref) {
   var helpText =
     rawErrors && rawErrors.length > 0
       ? rawErrors.map(function(error, ind) {
-          return React__default.createElement(
+          return React.createElement(
             'span',
             {
               key: ind,
@@ -534,7 +542,7 @@ var FieldTemplate = function FieldTemplate(_ref) {
           );
         })
       : rawHelp;
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
@@ -543,7 +551,7 @@ var FieldTemplate = function FieldTemplate(_ref) {
     },
     children,
     displayLabel && rawDescription
-      ? React__default.createElement(
+      ? React.createElement(
           Typography,
           {
             variant: 'caption',
@@ -553,7 +561,7 @@ var FieldTemplate = function FieldTemplate(_ref) {
         )
       : null,
     helpText &&
-      React__default.createElement(
+      React.createElement(
         FormHelperText,
         {
           id: id,
@@ -563,7 +571,7 @@ var FieldTemplate = function FieldTemplate(_ref) {
   );
 };
 
-var useStyles$1 = /*#__PURE__*/ styles.makeStyles({
+var useStyles$1 = /*#__PURE__*/ makeStyles({
   root: {
     flexDirection: 'row',
   },
@@ -580,21 +588,21 @@ var ObjectFieldTemplate = function ObjectFieldTemplate(_ref) {
     idSchema = _ref.idSchema;
   var classes = useStyles$1();
   console.log(properties);
-  return React__default.createElement(
-    React__default.Fragment,
+  return React.createElement(
+    React.Fragment,
     null,
     (uiSchema['ui:title'] || title) &&
-      React__default.createElement(TitleField, {
+      React.createElement(TitleField, {
         id: idSchema.$id + '-title',
         title: title,
         required: required,
       }),
     description &&
-      React__default.createElement(DescriptionField, {
+      React.createElement(DescriptionField, {
         id: idSchema.$id + '-description',
         description: description,
       }),
-    React__default.createElement(
+    React.createElement(
       Grid,
       {
         container: true,
@@ -603,10 +611,10 @@ var ObjectFieldTemplate = function ObjectFieldTemplate(_ref) {
       },
       properties.map(function(element, index) {
         return element.content.props.uiSchema['ui:widget'] === 'hidden'
-          ? React__default.createElement('div', {
+          ? React.createElement('div', {
               key: index,
             })
-          : React__default.createElement(
+          : React.createElement(
               Grid,
               {
                 item: true,
@@ -658,15 +666,15 @@ var CheckboxWidget = function CheckboxWidget(props) {
     labelPlacement = 'start';
   }
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       required: required,
       margin: 'dense',
     },
-    React__default.createElement(FormControlLabel, {
-      control: React__default.createElement(Checkbox, {
+    React.createElement(FormControlLabel, {
+      control: React.createElement(Checkbox, {
         id: id,
         checked: typeof value === 'undefined' ? false : value,
         required: required,
@@ -741,27 +749,27 @@ var CheckboxesWidget = function CheckboxesWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       required: required,
     },
-    React__default.createElement(
+    React.createElement(
       FormLabel,
       {
         htmlFor: id,
       },
       label || schema.title
     ),
-    React__default.createElement(
+    React.createElement(
       FormGroup,
       null,
       enumOptions.map(function(option, index) {
         var checked = value.indexOf(option.value) !== -1;
         var itemDisabled =
           enumDisabled && enumDisabled.indexOf(option.value) != -1;
-        var checkbox = React__default.createElement(Checkbox, {
+        var checkbox = React.createElement(Checkbox, {
           id: id + '_' + index,
           checked: checked,
           disabled: disabled || itemDisabled || readonly,
@@ -771,12 +779,12 @@ var CheckboxesWidget = function CheckboxesWidget(_ref) {
           onFocus: _onFocus,
         });
         return inline
-          ? React__default.createElement(FormControlLabel, {
+          ? React.createElement(FormControlLabel, {
               control: checkbox,
               key: index,
               label: option.label,
             })
-          : React__default.createElement(FormControlLabel, {
+          : React.createElement(FormControlLabel, {
               control: checkbox,
               key: index,
               label: option.label,
@@ -795,7 +803,7 @@ var ColorWidget = function ColorWidget(_ref) {
     onChange = _ref.onChange,
     schema = _ref.schema;
 
-  var _useState = React.useState(value),
+  var _useState = useState(value),
     color = _useState[0],
     updateColor = _useState[1];
 
@@ -809,24 +817,24 @@ var ColorWidget = function ColorWidget(_ref) {
     }
   };
 
-  var _useState2 = React.useState(false),
+  var _useState2 = useState(false),
     show = _useState2[0],
     toggleShow = _useState2[1];
 
-  var _useState3 = React.useState(false),
+  var _useState3 = useState(false),
     mode = _useState3[0],
     toggleMode = _useState3[1];
 
   var colors = [
-    _$1.orange,
-    _$1.lightGreen,
-    _$1.green,
-    _$1.yellow,
-    _$1.lightBlue,
-    _$1.cyan,
-    _$1.grey,
-    _$1.red,
-    _$1.purple,
+    orange,
+    lightGreen,
+    green,
+    yellow,
+    lightBlue,
+    cyan,
+    grey,
+    red,
+    purple,
   ];
 
   var getSwatchColors = function getSwatchColors(_color) {
@@ -870,19 +878,15 @@ var ColorWidget = function ColorWidget(_ref) {
     left: '275px',
     top: '20px',
   };
-  return React__default.createElement(
-    core.FormControl,
+  return React.createElement(
+    FormControl$1,
     {
       fullWidth: true,
       required: required,
       disabled: disabled,
     },
-    React__default.createElement(
-      core.FormHelperText,
-      null,
-      label || schema.title
-    ),
-    React__default.createElement('div', {
+    React.createElement(FormHelperText$1, null, label || schema.title),
+    React.createElement('div', {
       style: squareStyle,
       onClick: function onClick() {
         if (!(readonly || disabled)) {
@@ -899,14 +903,14 @@ var ColorWidget = function ColorWidget(_ref) {
       },
     }),
     show &&
-      React__default.createElement(
-        core.ClickAwayListener,
+      React.createElement(
+        ClickAwayListener,
         {
           onClickAway: function onClickAway() {
             return toggleShow(!show);
           },
         },
-        React__default.createElement(reactColor.TwitterPicker, {
+        React.createElement(TwitterPicker, {
           color: value,
           onChange: _onChange,
           colors: _.map(colors, function(val) {
@@ -917,19 +921,19 @@ var ColorWidget = function ColorWidget(_ref) {
     show &&
       mode &&
       !!getSwatchColors(value) &&
-      React__default.createElement(
-        core.ClickAwayListener,
+      React.createElement(
+        ClickAwayListener,
         {
           onClickAway: function onClickAway() {
             toggleMode(!mode);
           },
         },
-        React__default.createElement(
+        React.createElement(
           'div',
           {
             style: swatchStyle,
           },
-          React__default.createElement(reactColor.SwatchesPicker, {
+          React.createElement(SwatchesPicker, {
             color: value,
             onChange: _onChange,
             onChangeComplete: function onChangeComplete(_color) {
@@ -959,13 +963,13 @@ var DateWidget = function DateWidget(_ref) {
 
   var _displayValue = moment(value).format('MM/DD/YYYY');
 
-  return React__default.createElement(
-    core.FormControl,
+  return React.createElement(
+    FormControl$1,
     {
       fullWidth: true,
       required: required,
     },
-    React__default.createElement(pickers.KeyboardDatePicker, {
+    React.createElement(KeyboardDatePicker, {
       autoOk: true,
       variant: 'inline',
       format: 'MM/DD/YYYY',
@@ -1014,14 +1018,14 @@ var PasswordWidget = function PasswordWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       //error={!!rawErrors}
       required: required,
     },
-    React__default.createElement(TextField, {
+    React.createElement(TextField, {
       id: id,
       label: label || schema.title,
       autoFocus: autofocus,
@@ -1070,20 +1074,20 @@ var RadioWidget = function RadioWidget(_ref) {
   };
 
   var row = options ? options.inline : false;
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       required: required,
     },
-    React__default.createElement(
+    React.createElement(
       FormLabel,
       {
         htmlFor: id,
       },
       label || schema.title
     ),
-    React__default.createElement(
+    React.createElement(
       RadioGroup,
       {
         name: name,
@@ -1096,8 +1100,8 @@ var RadioWidget = function RadioWidget(_ref) {
       enumOptions.map(function(option, i) {
         var itemDisabled =
           enumDisabled && enumDisabled.indexOf(option.value) != -1;
-        var radio = React__default.createElement(FormControlLabel, {
-          control: React__default.createElement(Radio, {
+        var radio = React.createElement(FormControlLabel, {
+          control: React.createElement(Radio, {
             color: 'primary',
             key: i,
           }),
@@ -1131,7 +1135,7 @@ var RangeWidget = function RangeWidget(_ref) {
       label: label,
       id: id,
     },
-    utils.rangeSpec(schema)
+    rangeSpec(schema)
   );
 
   var _onChange = function _onChange(_ref2, value) {
@@ -1150,27 +1154,27 @@ var RangeWidget = function RangeWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     Grid,
     {
       container: true,
       alignItems: 'flex-end',
     },
-    React__default.createElement(
+    React.createElement(
       FormControl,
       {
         fullWidth: true,
         //error={!!rawErrors}
         required: required,
       },
-      React__default.createElement(
+      React.createElement(
         FormLabel,
         {
           id: id,
         },
         label
       ),
-      React__default.createElement(
+      React.createElement(
         Slider,
         Object.assign({}, sliderProps, {
           disabled: disabled || readonly,
@@ -1197,24 +1201,24 @@ var processValue = function processValue(schema, value) {
   if (value === '') {
     return undefined;
   } else if (type === 'array' && items && nums.has(items.type)) {
-    return value.map(utils.asNumber);
+    return value.map(asNumber);
   } else if (type === 'boolean') {
     return value === 'true';
   } else if (type === 'number') {
-    return utils.asNumber(value);
+    return asNumber(value);
   } // If type is undefined, but an enum is present, try and infer the type from
   // the enum values
 
   if (schema['enum']) {
     if (
       schema['enum'].every(function(x) {
-        return utils.guessType(x) === 'number';
+        return guessType(x) === 'number';
       })
     ) {
-      return utils.asNumber(value);
+      return asNumber(value);
     } else if (
       schema['enum'].every(function(x) {
-        return utils.guessType(x) === 'boolean';
+        return guessType(x) === 'boolean';
       })
     ) {
       return value === 'true';
@@ -1252,7 +1256,7 @@ var SelectWidget = function SelectWidget(_ref) {
     enumDisabled = options.enumDisabled,
     autoComplete = options.autoComplete;
   var enumImages = schema.enumImages;
-  var labelRef = React__default.useRef(null);
+  var labelRef = React.useRef(null);
   var labelWidth = labelRef.current
     ? labelRef.current.clientWidth
     : (label || schema.title || '').length * 12;
@@ -1297,7 +1301,7 @@ var SelectWidget = function SelectWidget(_ref) {
     variant = 'filled';
   }
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
@@ -1308,7 +1312,7 @@ var SelectWidget = function SelectWidget(_ref) {
       variant: variant,
     },
     autoComplete
-      ? React__default.createElement(Autocomplete, {
+      ? React.createElement(Autocomplete, {
           value:
             typeof value === 'undefined'
               ? emptyValue
@@ -1322,8 +1326,8 @@ var SelectWidget = function SelectWidget(_ref) {
             return option.label || '';
           },
           renderInput: function renderInput(params) {
-            return React__default.createElement(
-              core.TextField,
+            return React.createElement(
+              TextField$1,
               Object.assign({}, params, {
                 error: !!rawErrors,
                 autoFocus: autofocus,
@@ -1336,12 +1340,12 @@ var SelectWidget = function SelectWidget(_ref) {
             );
           },
         })
-      : React__default.createElement(
-          React__default.Fragment,
+      : React.createElement(
+          React.Fragment,
           null,
           ' ',
           (label || schema.title) !== ''
-            ? React__default.createElement(
+            ? React.createElement(
                 InputLabel,
                 {
                   ref: labelRef,
@@ -1351,7 +1355,7 @@ var SelectWidget = function SelectWidget(_ref) {
                 label || schema.title
               )
             : null,
-          React__default.createElement(
+          React.createElement(
             Select,
             {
               multiple: typeof multiple === 'undefined' ? false : multiple,
@@ -1369,7 +1373,7 @@ var SelectWidget = function SelectWidget(_ref) {
               onFocus: _onFocus,
             },
             placeholder
-              ? React__default.createElement(
+              ? React.createElement(
                   MenuItem,
                   {
                     value: '',
@@ -1382,7 +1386,7 @@ var SelectWidget = function SelectWidget(_ref) {
               var value = _ref5.value,
                 label = _ref5.label;
               var disabled = enumDisabled && enumDisabled.indexOf(value) != -1;
-              return React__default.createElement(
+              return React.createElement(
                 MenuItem,
                 {
                   key: i,
@@ -1394,7 +1398,7 @@ var SelectWidget = function SelectWidget(_ref) {
                   },
                 },
                 enumImages && enumImages[i]
-                  ? React__default.createElement('img', {
+                  ? React.createElement('img', {
                       src: enumImages[i],
                       style: {
                         width: '15px',
@@ -1441,14 +1445,14 @@ var TextareaWidget = function TextareaWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       //error={!!rawErrors}
       required: required,
     },
-    React__default.createElement(TextField, {
+    React.createElement(TextField, {
       id: id,
       label: label || schema.title,
       placeholder: placeholder,
@@ -1522,14 +1526,14 @@ var TextWidget = function TextWidget(_ref) {
     variant = 'filled';
   }
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       required: required,
     },
     autoComplete
-      ? React__default.createElement(Autocomplete, {
+      ? React.createElement(Autocomplete, {
           value: value ? value : '',
           freeSolo: true,
           id: id,
@@ -1541,7 +1545,7 @@ var TextWidget = function TextWidget(_ref) {
             return option || '';
           },
           renderInput: function renderInput(params) {
-            return React__default.createElement(
+            return React.createElement(
               TextField,
               Object.assign({}, params, {
                 margin: 'dense',
@@ -1556,7 +1560,7 @@ var TextWidget = function TextWidget(_ref) {
             );
           },
         })
-      : React__default.createElement(TextField, {
+      : React.createElement(TextField, {
           error: !!rawErrors,
           id: id,
           label: label || schema.title,
@@ -1602,15 +1606,15 @@ var UpDownWidget = function UpDownWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       //error={!!rawErrors}
       required: required,
     },
-    React__default.createElement(InputLabel, null, label),
-    React__default.createElement(Input, {
+    React.createElement(InputLabel, null, label),
+    React.createElement(Input, {
       id: id,
       autoFocus: autofocus,
       required: required,
@@ -1654,14 +1658,14 @@ var EmailWidget = function EmailWidget(_ref) {
     return onFocus(id, value);
   };
 
-  return React__default.createElement(
+  return React.createElement(
     FormControl,
     {
       fullWidth: true,
       //error={!!rawErrors}
       required: required,
     },
-    React__default.createElement(TextField, {
+    React.createElement(TextField, {
       id: id,
       label: label || schema.title,
       autoFocus: autofocus,
@@ -1691,7 +1695,7 @@ var Widgets = {
   EmailWidget: EmailWidget,
 };
 
-var _getDefaultRegistry = /*#__PURE__*/ utils.getDefaultRegistry(),
+var _getDefaultRegistry = /*#__PURE__*/ getDefaultRegistry(),
   fields = _getDefaultRegistry.fields,
   widgets = _getDefaultRegistry.widgets;
 
@@ -1704,13 +1708,8 @@ var Theme = {
   ErrorList: ErrorList,
 };
 
-var MuiForm = /*#__PURE__*/ reactJsonschemaForm.withTheme(Theme);
+var MuiForm = /*#__PURE__*/ withTheme(Theme);
 
-exports.FieldTemplate = FieldTemplate;
-exports.Fields = Fields;
-exports.MuiForm = MuiForm;
-exports.ObjectFieldTemplate = ObjectFieldTemplate;
-exports.Theme = Theme;
-exports.Widgets = Widgets;
-exports.default = MuiForm;
-//# sourceMappingURL=rjsf-material-ui.cjs.development.js.map
+export default MuiForm;
+export { FieldTemplate, Fields, MuiForm, ObjectFieldTemplate, Theme, Widgets };
+//# sourceMappingURL=rjsf-material-ui.esm.js.map
