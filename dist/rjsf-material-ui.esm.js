@@ -1554,7 +1554,7 @@ var TextWidget = function TextWidget(_ref) {
     },
     autoComplete
       ? React.createElement(Autocomplete, {
-          value: value ? value : '',
+          inputValue: value ? value : '',
           freeSolo: true,
           id: id,
           disabled: disabled || readonly,

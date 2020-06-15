@@ -1549,7 +1549,7 @@ var TextWidget = function TextWidget(_ref) {
     },
     autoComplete
       ? React__default.createElement(Autocomplete__default, {
-          value: value ? value : '',
+          inputValue: value ? value : '',
           freeSolo: true,
           id: id,
           disabled: disabled || readonly,
