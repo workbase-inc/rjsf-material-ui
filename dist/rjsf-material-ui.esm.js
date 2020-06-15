@@ -31,7 +31,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
-import _ from 'lodash-es';
 import {
   FormControl as FormControl$1,
   FormHelperText as FormHelperText$1,
@@ -59,7 +58,9 @@ import Slider from '@material-ui/core/Slider';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete, {
+  createFilterOptions,
+} from '@material-ui/lab/Autocomplete';
 import Input from '@material-ui/core/Input';
 
 function _extends() {
@@ -216,7 +217,7 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
       Grid,
       {
         item: true,
-        xs: (props.uiSchema && props.uiSchema['ui:width']) || 12,
+        xs: (props.uiSchema && props.uiSchema['ui:width']) || true,
       },
       props.uiSchema['ui:nobox']
         ? props.children
@@ -377,9 +378,13 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
         props.items &&
           props.items.map(function(p) {
             return DefaultArrayItem(
-              _extends({}, p, {
-                uiSchema: props.uiSchema,
-              })
+              _extends(
+                _extends({}, p),
+                {},
+                {
+                  uiSchema: props.uiSchema,
+                }
+              )
             );
           }),
         props.canAdd &&
@@ -591,7 +596,7 @@ var ObjectFieldTemplate = function ObjectFieldTemplate(_ref) {
   return React.createElement(
     React.Fragment,
     null,
-    (uiSchema['ui:title'] || title) &&
+    (uiSchema['ui:title'] || (uiSchema['ui:title'] !== false && title)) &&
       React.createElement(TitleField, {
         id: idSchema.$id + '-title',
         title: title,
@@ -876,7 +881,14 @@ var ColorWidget = function ColorWidget(_ref) {
   var swatchStyle = {
     position: 'absolute',
     left: '275px',
-    top: '20px',
+    top: '70px',
+    zIndex: 1,
+  };
+  var basicStyle = {
+    position: 'absolute',
+    left: '-7px',
+    top: '70px',
+    zIndex: 1,
   };
   return React.createElement(
     FormControl$1,
@@ -891,7 +903,7 @@ var ColorWidget = function ColorWidget(_ref) {
       onClick: function onClick() {
         if (!(readonly || disabled)) {
           if (
-            _.some(colors, function(_color) {
+            colors.some(function(_color) {
               return isShade(_color, color);
             })
           ) {
@@ -910,13 +922,19 @@ var ColorWidget = function ColorWidget(_ref) {
             return toggleShow(!show);
           },
         },
-        React.createElement(TwitterPicker, {
-          color: value,
-          onChange: _onChange,
-          colors: _.map(colors, function(val) {
-            return val[500];
-          }),
-        })
+        React.createElement(
+          'div',
+          {
+            style: basicStyle,
+          },
+          React.createElement(TwitterPicker, {
+            color: value,
+            onChange: _onChange,
+            colors: colors.map(function(val) {
+              return val[500];
+            }),
+          })
+        )
       ),
     show &&
       mode &&
@@ -1469,6 +1487,8 @@ var TextareaWidget = function TextareaWidget(_ref) {
   );
 };
 
+var filter = /*#__PURE__*/ createFilterOptions();
+
 var TextWidget = function TextWidget(_ref) {
   var id = _ref.id,
     required = _ref.required,
@@ -1541,8 +1561,20 @@ var TextWidget = function TextWidget(_ref) {
           onInputChange: _onAutoCompleteChange,
           options: enumOptions,
           size: size,
+          handleHomeEndKeys: true,
+          selectOnFocus: true,
+          clearOnBlur: true,
           getOptionLabel: function getOptionLabel(option) {
             return option || '';
+          },
+          filterOptions: function filterOptions(options, params) {
+            var filtered = filter(options, params); // Suggest the creation of a new value
+
+            if (params.inputValue !== '') {
+              filtered.push('Add "' + params.inputValue + '"');
+            }
+
+            return filtered;
           },
           renderInput: function renderInput(params) {
             return React.createElement(
@@ -1701,10 +1733,10 @@ var _getDefaultRegistry = /*#__PURE__*/ getDefaultRegistry(),
 
 var Theme = {
   ArrayFieldTemplate: ArrayFieldTemplate,
-  fields: /*#__PURE__*/ _extends({}, fields, Fields),
+  fields: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, fields), Fields),
   FieldTemplate: FieldTemplate,
   ObjectFieldTemplate: ObjectFieldTemplate,
-  widgets: /*#__PURE__*/ _extends({}, widgets, Widgets),
+  widgets: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, widgets), Widgets),
   ErrorList: ErrorList,
 };
 

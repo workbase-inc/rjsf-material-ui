@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from 'react';
+import React, { useState } from 'react';
 
 import { WidgetProps } from 'react-jsonschema-form';
 import {

@@ -38,10 +38,9 @@ var FormControlLabel = _interopDefault(
 );
 var FormLabel = _interopDefault(require('@material-ui/core/FormLabel'));
 var FormGroup = _interopDefault(require('@material-ui/core/FormGroup'));
-var _ = _interopDefault(require('lodash'));
 var core = require('@material-ui/core');
 var reactColor = require('react-color');
-var _$1 = require('@material-ui/core/colors/');
+var _ = require('@material-ui/core/colors/');
 var pickers = require('@material-ui/pickers');
 var moment = _interopDefault(require('moment'));
 var TextField = _interopDefault(require('@material-ui/core/TextField'));
@@ -51,7 +50,8 @@ var Slider = _interopDefault(require('@material-ui/core/Slider'));
 var MenuItem = _interopDefault(require('@material-ui/core/MenuItem'));
 var Select = _interopDefault(require('@material-ui/core/Select'));
 var InputLabel = _interopDefault(require('@material-ui/core/InputLabel'));
-var Autocomplete = _interopDefault(require('@material-ui/lab/Autocomplete'));
+var Autocomplete = require('@material-ui/lab/Autocomplete');
+var Autocomplete__default = _interopDefault(Autocomplete);
 var Input = _interopDefault(require('@material-ui/core/Input'));
 
 function _extends() {
@@ -208,7 +208,7 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
       Grid,
       {
         item: true,
-        xs: (props.uiSchema && props.uiSchema['ui:width']) || 12,
+        xs: (props.uiSchema && props.uiSchema['ui:width']) || true,
       },
       props.uiSchema['ui:nobox']
         ? props.children
@@ -369,9 +369,13 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
         props.items &&
           props.items.map(function(p) {
             return DefaultArrayItem(
-              _extends({}, p, {
-                uiSchema: props.uiSchema,
-              })
+              _extends(
+                _extends({}, p),
+                {},
+                {
+                  uiSchema: props.uiSchema,
+                }
+              )
             );
           }),
         props.canAdd &&
@@ -583,7 +587,7 @@ var ObjectFieldTemplate = function ObjectFieldTemplate(_ref) {
   return React__default.createElement(
     React__default.Fragment,
     null,
-    (uiSchema['ui:title'] || title) &&
+    (uiSchema['ui:title'] || (uiSchema['ui:title'] !== false && title)) &&
       React__default.createElement(TitleField, {
         id: idSchema.$id + '-title',
         title: title,
@@ -818,15 +822,15 @@ var ColorWidget = function ColorWidget(_ref) {
     toggleMode = _useState3[1];
 
   var colors = [
-    _$1.orange,
-    _$1.lightGreen,
-    _$1.green,
-    _$1.yellow,
-    _$1.lightBlue,
-    _$1.cyan,
-    _$1.grey,
-    _$1.red,
-    _$1.purple,
+    _.orange,
+    _.lightGreen,
+    _.green,
+    _.yellow,
+    _.lightBlue,
+    _.cyan,
+    _.grey,
+    _.red,
+    _.purple,
   ];
 
   var getSwatchColors = function getSwatchColors(_color) {
@@ -868,7 +872,14 @@ var ColorWidget = function ColorWidget(_ref) {
   var swatchStyle = {
     position: 'absolute',
     left: '275px',
-    top: '20px',
+    top: '70px',
+    zIndex: 1,
+  };
+  var basicStyle = {
+    position: 'absolute',
+    left: '-7px',
+    top: '70px',
+    zIndex: 1,
   };
   return React__default.createElement(
     core.FormControl,
@@ -887,7 +898,7 @@ var ColorWidget = function ColorWidget(_ref) {
       onClick: function onClick() {
         if (!(readonly || disabled)) {
           if (
-            _.some(colors, function(_color) {
+            colors.some(function(_color) {
               return isShade(_color, color);
             })
           ) {
@@ -906,13 +917,19 @@ var ColorWidget = function ColorWidget(_ref) {
             return toggleShow(!show);
           },
         },
-        React__default.createElement(reactColor.TwitterPicker, {
-          color: value,
-          onChange: _onChange,
-          colors: _.map(colors, function(val) {
-            return val[500];
-          }),
-        })
+        React__default.createElement(
+          'div',
+          {
+            style: basicStyle,
+          },
+          React__default.createElement(reactColor.TwitterPicker, {
+            color: value,
+            onChange: _onChange,
+            colors: colors.map(function(val) {
+              return val[500];
+            }),
+          })
+        )
       ),
     show &&
       mode &&
@@ -1308,7 +1325,7 @@ var SelectWidget = function SelectWidget(_ref) {
       variant: variant,
     },
     autoComplete
-      ? React__default.createElement(Autocomplete, {
+      ? React__default.createElement(Autocomplete__default, {
           value:
             typeof value === 'undefined'
               ? emptyValue
@@ -1465,6 +1482,8 @@ var TextareaWidget = function TextareaWidget(_ref) {
   );
 };
 
+var filter = /*#__PURE__*/ Autocomplete.createFilterOptions();
+
 var TextWidget = function TextWidget(_ref) {
   var id = _ref.id,
     required = _ref.required,
@@ -1529,7 +1548,7 @@ var TextWidget = function TextWidget(_ref) {
       required: required,
     },
     autoComplete
-      ? React__default.createElement(Autocomplete, {
+      ? React__default.createElement(Autocomplete__default, {
           value: value ? value : '',
           freeSolo: true,
           id: id,
@@ -1537,8 +1556,20 @@ var TextWidget = function TextWidget(_ref) {
           onInputChange: _onAutoCompleteChange,
           options: enumOptions,
           size: size,
+          handleHomeEndKeys: true,
+          selectOnFocus: true,
+          clearOnBlur: true,
           getOptionLabel: function getOptionLabel(option) {
             return option || '';
+          },
+          filterOptions: function filterOptions(options, params) {
+            var filtered = filter(options, params); // Suggest the creation of a new value
+
+            if (params.inputValue !== '') {
+              filtered.push('Add "' + params.inputValue + '"');
+            }
+
+            return filtered;
           },
           renderInput: function renderInput(params) {
             return React__default.createElement(
@@ -1697,10 +1728,10 @@ var _getDefaultRegistry = /*#__PURE__*/ utils.getDefaultRegistry(),
 
 var Theme = {
   ArrayFieldTemplate: ArrayFieldTemplate,
-  fields: /*#__PURE__*/ _extends({}, fields, Fields),
+  fields: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, fields), Fields),
   FieldTemplate: FieldTemplate,
   ObjectFieldTemplate: ObjectFieldTemplate,
-  widgets: /*#__PURE__*/ _extends({}, widgets, Widgets),
+  widgets: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, widgets), Widgets),
   ErrorList: ErrorList,
 };
 
