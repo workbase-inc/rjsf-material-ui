@@ -79,7 +79,7 @@ const DefaultArrayItem = (props: any) => {
     <Grid container={true} key={props.index} alignItems="center">
       <Grid
         item={true}
-        xs={(props.uiSchema && props.uiSchema['ui:width']) || 12}
+        xs={(props.uiSchema && props.uiSchema['ui:width']) || true}
       >
         {props.uiSchema['ui:nobox'] ? (
           props.children

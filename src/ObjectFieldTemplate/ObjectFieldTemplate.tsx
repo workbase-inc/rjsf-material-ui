@@ -27,7 +27,7 @@ const ObjectFieldTemplate = ({
 
   return (
     <>
-      {(uiSchema['ui:title'] || title) && (
+      {(uiSchema['ui:title'] || (uiSchema['ui:title'] !== false && title)) && (
         <TitleField
           id={`${idSchema.$id}-title`}
           title={title}

@@ -2,7 +2,10 @@ import React from 'react';
 
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete, {
+  createFilterOptions,
+} from '@material-ui/lab/Autocomplete';
+const filter = createFilterOptions<string>();
 
 import { WidgetProps } from 'react-jsonschema-form';
 
@@ -58,7 +61,20 @@ const TextWidget = ({
           onInputChange={_onAutoCompleteChange}
           options={enumOptions}
           size={size}
+          handleHomeEndKeys
+          selectOnFocus
+          clearOnBlur
           getOptionLabel={(option: any) => option || ''}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params);
+
+            // Suggest the creation of a new value
+            if (params.inputValue !== '') {
+              filtered.push(`Add "${params.inputValue}"`);
+            }
+
+            return filtered;
+          }}
           renderInput={(params: any) => (
             <TextField
               {...params}

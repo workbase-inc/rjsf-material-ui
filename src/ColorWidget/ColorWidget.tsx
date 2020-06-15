@@ -1,6 +1,5 @@
 import React, { useState, CSSProperties } from 'react';
 
-import _ from 'lodash';
 import { WidgetProps } from 'react-jsonschema-form';
 import {
   FormControl,
@@ -81,7 +80,7 @@ const ColorWidget = ({
     );
   };
 
-  const squareStyle = {
+  const squareStyle: React.CSSProperties = {
     background: color,
     width: '30px',
     height: '30px',
@@ -91,11 +90,19 @@ const ColorWidget = ({
     border: '1px solid #DCDCDC',
   };
 
-  const swatchStyle = {
+  const swatchStyle: React.CSSProperties = {
     position: 'absolute',
     left: '275px',
-    top: '20px',
-  } as CSSProperties;
+    top: '70px',
+    zIndex: 1,
+  };
+
+  const basicStyle: React.CSSProperties = {
+    position: 'absolute',
+    left: '-7px',
+    top: '70px',
+    zIndex: 1,
+  };
 
   return (
     <FormControl fullWidth={true} required={required} disabled={disabled}>
@@ -105,7 +112,7 @@ const ColorWidget = ({
         onClick={() => {
           if (!(readonly || disabled)) {
             if (
-              _.some(colors, (_color: any): boolean => {
+              colors.some((_color: any): boolean => {
                 return isShade(_color, color);
               })
             ) {
@@ -117,11 +124,13 @@ const ColorWidget = ({
       />
       {show && (
         <ClickAwayListener onClickAway={() => toggleShow(!show)}>
-          <BasicPicker
-            color={value}
-            onChange={_onChange}
-            colors={_.map(colors, val => val[500])}
-          />
+          <div style={basicStyle}>
+            <BasicPicker
+              color={value}
+              onChange={_onChange}
+              colors={colors.map((val: any) => val[500])}
+            />
+          </div>
         </ClickAwayListener>
       )}
       {show && mode && !!getSwatchColors(value) && (
