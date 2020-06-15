@@ -54,7 +54,7 @@ const TextWidget = ({
     <FormControl fullWidth={true} required={required}>
       {autoComplete ? (
         <Autocomplete
-          value={value ? value : ''}
+          inputValue={value ? value : ''}
           freeSolo={true}
           id={id}
           disabled={disabled || readonly}
