@@ -302,7 +302,7 @@ var DefaultArrayItem = function DefaultArrayItem(props) {
 var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
   props
 ) {
-  return React.createElement(
+  var innerArrayContent = React.createElement(
     'fieldset',
     {
       className: props.className,
@@ -339,90 +339,80 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
         label: props.uiSchema.buttonLabel,
       })
   );
+  return React.createElement(React.Fragment, null, innerArrayContent);
 };
 
 var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
   props
 ) {
-  return React.createElement(
-    Paper,
-    {
-      elevation: 2,
-    },
-    React.createElement(
-      Box,
-      {
-        p: 2,
-      },
-      React.createElement(ArrayFieldTitle, {
-        key: 'array-field-title-' + props.idSchema.$id,
-        TitleField: props.TitleField,
+  var innerArrayContent = React.createElement(
+    React.Fragment,
+    null,
+    React.createElement(ArrayFieldTitle, {
+      key: 'array-field-title-' + props.idSchema.$id,
+      TitleField: props.TitleField,
+      idSchema: props.idSchema,
+      title: props.uiSchema['ui:title'] || props.title,
+      required: props.required,
+    }),
+    (props.uiSchema['ui:description'] || props.schema.description) &&
+      React.createElement(ArrayFieldDescription, {
+        key: 'array-field-description-' + props.idSchema.$id,
+        DescriptionField: props.DescriptionField,
         idSchema: props.idSchema,
-        title: props.uiSchema['ui:title'] || props.title,
-        required: props.required,
+        description:
+          props.uiSchema['ui:description'] || props.schema.description,
       }),
-      (props.uiSchema['ui:description'] || props.schema.description) &&
-        React.createElement(ArrayFieldDescription, {
-          key: 'array-field-description-' + props.idSchema.$id,
-          DescriptionField: props.DescriptionField,
-          idSchema: props.idSchema,
-          description:
-            props.uiSchema['ui:description'] || props.schema.description,
+    React.createElement(
+      Grid,
+      {
+        container: true,
+        key: 'array-item-list-' + props.idSchema.$id,
+      },
+      props.items &&
+        props.items.map(function(p) {
+          return DefaultArrayItem(
+            _extends({}, p, {
+              uiSchema: props.uiSchema,
+            })
+          );
         }),
-      React.createElement(
-        Grid,
-        {
-          container: true,
-          key: 'array-item-list-' + props.idSchema.$id,
-        },
-        props.items &&
-          props.items.map(function(p) {
-            return DefaultArrayItem(
-              _extends(
-                _extends({}, p),
-                {},
-                {
-                  uiSchema: props.uiSchema,
-                }
-              )
-            );
-          }),
-        props.canAdd &&
+      props.canAdd &&
+        React.createElement(
+          Grid,
+          {
+            container: true,
+            justify: 'flex-end',
+          },
           React.createElement(
             Grid,
             {
-              container: true,
-              justify: 'flex-end',
+              item: true,
             },
             React.createElement(
-              Grid,
+              Box,
               {
-                item: true,
+                mt: 2,
               },
               React.createElement(
-                Box,
-                {
-                  mt: 2,
-                },
-                React.createElement(
-                  AddButton,
-                  Object.assign(
-                    {
-                      className: 'array-item-add',
-                      onClick: props.onAddClick,
-                      disabled: props.disabled || props.readonly,
-                    },
-                    props.uiSchema['ui:options'] && {
-                      label: props.uiSchema['ui:options']['addButtonLabel'],
-                    }
-                  )
+                AddButton,
+                Object.assign(
+                  {
+                    className: 'array-item-add',
+                    onClick: props.onAddClick,
+                    disabled: props.disabled || props.readonly,
+                  },
+                  props.uiSchema['ui:options'] && {
+                    label: props.uiSchema['ui:options']['addButtonLabel'],
+                  }
                 )
               )
             )
           )
-      )
+        )
     )
   );
+  return React.createElement(React.Fragment, null, innerArrayContent);
 };
 
 var ErrorList = function ErrorList(_ref) {
@@ -1733,10 +1723,10 @@ var _getDefaultRegistry = /*#__PURE__*/ getDefaultRegistry(),
 
 var Theme = {
   ArrayFieldTemplate: ArrayFieldTemplate,
-  fields: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, fields), Fields),
+  fields: /*#__PURE__*/ _extends({}, fields, Fields),
   FieldTemplate: FieldTemplate,
   ObjectFieldTemplate: ObjectFieldTemplate,
-  widgets: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, widgets), Widgets),
+  widgets: /*#__PURE__*/ _extends({}, widgets, Widgets),
   ErrorList: ErrorList,
 };
 
