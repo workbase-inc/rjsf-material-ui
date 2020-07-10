@@ -339,7 +339,28 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
         label: props.uiSchema.buttonLabel,
       })
   );
-  return React.createElement(React.Fragment, null, innerArrayContent);
+  return React.createElement(
+    React.Fragment,
+    null,
+    ' ',
+    props.uiSchema['ui:nobox']
+      ? {
+          innerArrayContent: innerArrayContent,
+        }
+      : React.createElement(
+          Paper,
+          {
+            elevation: 2,
+          },
+          React.createElement(
+            Box,
+            {
+              p: 2,
+            },
+            innerArrayContent
+          )
+        )
+  );
 };
 
 var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
@@ -412,7 +433,28 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
         )
     )
   );
-  return React.createElement(React.Fragment, null, innerArrayContent);
+  return React.createElement(
+    React.Fragment,
+    null,
+    ' ',
+    props.uiSchema['ui:nobox']
+      ? {
+          innerArrayContent: innerArrayContent,
+        }
+      : React.createElement(
+          Paper,
+          {
+            elevation: 2,
+          },
+          React.createElement(
+            Box,
+            {
+              p: 2,
+            },
+            innerArrayContent
+          )
+        )
+  );
 };
 
 var ErrorList = function ErrorList(_ref) {

@@ -181,7 +181,18 @@ const DefaultFixedArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
     </fieldset>
   );
 
-  return <>{innerArrayContent}</>;
+  return (
+    <>
+      {' '}
+      {props.uiSchema['ui:nobox'] ? (
+        { innerArrayContent }
+      ) : (
+        <Paper elevation={2}>
+          <Box p={2}>{innerArrayContent}</Box>
+        </Paper>
+      )}
+    </>
+  );
 };
 
 const DefaultNormalArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
@@ -234,7 +245,18 @@ const DefaultNormalArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
     </>
   );
 
-  return <>{innerArrayContent}</>;
+  return (
+    <>
+      {' '}
+      {props.uiSchema['ui:nobox'] ? (
+        { innerArrayContent }
+      ) : (
+        <Paper elevation={2}>
+          <Box p={2}>{innerArrayContent}</Box>
+        </Paper>
+      )}
+    </>
+  );
 };
 
 export default ArrayFieldTemplate;

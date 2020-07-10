@@ -333,7 +333,24 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
   return React__default.createElement(
     React__default.Fragment,
     null,
-    innerArrayContent
+    ' ',
+    props.uiSchema['ui:nobox']
+      ? {
+          innerArrayContent: innerArrayContent,
+        }
+      : React__default.createElement(
+          Paper,
+          {
+            elevation: 2,
+          },
+          React__default.createElement(
+            Box,
+            {
+              p: 2,
+            },
+            innerArrayContent
+          )
+        )
   );
 };
 
@@ -410,7 +427,24 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
   return React__default.createElement(
     React__default.Fragment,
     null,
-    innerArrayContent
+    ' ',
+    props.uiSchema['ui:nobox']
+      ? {
+          innerArrayContent: innerArrayContent,
+        }
+      : React__default.createElement(
+          Paper,
+          {
+            elevation: 2,
+          },
+          React__default.createElement(
+            Box,
+            {
+              p: 2,
+            },
+            innerArrayContent
+          )
+        )
   );
 };
 
