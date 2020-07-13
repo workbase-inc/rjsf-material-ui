@@ -1,0 +1,283 @@
+{
+  "title": "Filter",
+  "description": "Filter",
+  "type": "object",
+  "properties": {
+    "combiner": {
+      "type": "string",
+      "enum": ["AND", "OR"]
+    },
+    "conditions": {
+      "type": "array",
+      "title": false,
+      "items": [
+        {
+          "$ref": "#/definitions/condition"
+        }
+      ],
+      "additionalItems": {
+        "$ref": "#/definitions/condition"
+      }
+    }
+  },
+  "definitions": {
+    "condition": {
+      "type": "object",
+      "properties": {
+        "variable": {
+          "type": "string",
+          "enum": ["x", "y"]
+        },
+        "variableType": {
+          "type": "string",
+          "enum": ["Text", "Number", "Date", "Select"]
+        }
+      },
+      "dependencies": {
+        "variableType": {
+          "oneOf": [
+            {
+              "properties": {
+                "variableType": {
+                  "enum": ["Text"]
+                },
+                "comparitor": {
+                  "type": "string",
+                  "enum": [
+                    "contains",
+                    "does not contain",
+                    "is",
+                    "is not",
+                    "is empty",
+                    "is not empty"
+                  ]
+                }
+              },
+              "dependencies": {
+                "comparitor": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": [
+                            "contains",
+                            "does not contain",
+                            "is",
+                            "is not"
+                          ]
+                        },
+                        "constant": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["is empty", "is not empty"]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "variableType": {
+                  "enum": ["Select"]
+                },
+                "comparitor": {
+                  "type": "string",
+                  "enum": [
+                    "is",
+                    "is not",
+                    "is any of",
+                    "is none of",
+                    "is empty",
+                    "is not empty"
+                  ]
+                }
+              },
+              "dependencies": {
+                "comparitor": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["is", "is not", "is any of", "is none of"]
+                        },
+                        "constant": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["is empty", "is not empty"]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "variableType": {
+                  "enum": ["Date"]
+                },
+                "comparitor": {
+                  "type": "string",
+                  "enum": [
+                    "is",
+                    "is within",
+                    "is before",
+                    "is after",
+                    "is on or before",
+                    "is on or after",
+                    "is not",
+                    "is empty",
+                    "is not empty"
+                  ]
+                }
+              },
+              "dependencies": {
+                "comparitor": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": [
+                            "is",
+                            "is within",
+                            "is before",
+                            "is after",
+                            "is on or before",
+                            "is on or after",
+                            "is not"
+                          ]
+                        },
+                        "constant": {
+                          "type": "string",
+                          "enum": [
+                            "today",
+                            "tomorrow",
+                            "yesterday",
+                            "one week ago",
+                            "one week from now",
+                            "one month ago",
+                            "one month from now",
+                            "number of days ago",
+                            "number of days from now",
+                            "exact date"
+                          ]
+                        }
+                      },
+                      "dependencies": {
+                        "constant": {
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "constant": {
+                                  "type": "string",
+                                  "enum": [
+                                    "today",
+                                    "tomorrow",
+                                    "yesterday",
+                                    "one week ago",
+                                    "one week from now",
+                                    "one month ago",
+                                    "one month from now",
+                                    "number of days ago",
+                                    "number of days from now"
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "properties": {
+                                "constant": {
+                                  "type": "string",
+                                  "enum": [
+                                    "today",
+                                    "tomorrow",
+                                    "yesterday",
+                                    "one week ago",
+                                    "one week from now",
+                                    "one month ago",
+                                    "one month from now",
+                                    "number of days ago",
+                                    "number of days from now"
+                                  ]
+                                },
+                                "constant2": {
+                                  "type": "date"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["is empty", "is not empty"]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "properties": {
+                "variableType": {
+                  "enum": ["Number"]
+                },
+                "comparitor": {
+                  "type": "string",
+                  "enum": [
+                    "=",
+                    "!=",
+                    "<",
+                    ">",
+                    "<=",
+                    ">=",
+                    "is empty",
+                    "is not empty"
+                  ]
+                }
+              },
+              "dependencies": {
+                "comparitor": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["=", "!=", "<", ">", "<=", ">="]
+                        },
+                        "constant": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "comparitor": {
+                          "enum": ["is empty", "is not empty"]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "combiner": {
+    "ui:width": "4"
+  },
+  "conditions": {
+    "items": {
+      "variable": {
+        "ui:width": "4"
+      },
+      "variableType": {
+        "ui:widget": "hidden"
+      },
+      "comparitor": {
+        "ui:width": "4"
+      },
+      "constant": {
+        "ui:width": "4"
+      }
+    },
+    "additionalItems": {
+      "variable": {
+        "ui:width": "4"
+      },
+      "variableType": {
+        "ui:widget": "hidden"
+      },
+      "comparitor": {
+        "ui:width": "4"
+      },
+      "constant": {
+        "ui:width": "4"
+      }
+    }
+  }
+}
