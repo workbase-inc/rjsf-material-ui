@@ -144,7 +144,7 @@ const DefaultArrayItem = (props: any) => {
 };
 
 const DefaultFixedArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
-  return (
+  var innerArrayContent = (
     <fieldset className={props.className}>
       <ArrayFieldTitle
         key={`array-field-title-${props.idSchema.$id}`}
@@ -180,58 +180,82 @@ const DefaultFixedArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
       )}
     </fieldset>
   );
+
+  return (
+    <>
+      {' '}
+      {props.uiSchema['ui:nobox'] ? (
+        { innerArrayContent }
+      ) : (
+        <Paper elevation={2}>
+          <Box p={2}>{innerArrayContent}</Box>
+        </Paper>
+      )}
+    </>
+  );
 };
 
 const DefaultNormalArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
-  return (
-    <Paper elevation={2}>
-      <Box p={2}>
-        <ArrayFieldTitle
-          key={`array-field-title-${props.idSchema.$id}`}
-          TitleField={props.TitleField}
+  var innerArrayContent = (
+    <>
+      <ArrayFieldTitle
+        key={`array-field-title-${props.idSchema.$id}`}
+        TitleField={props.TitleField}
+        idSchema={props.idSchema}
+        title={props.uiSchema['ui:title'] || props.title}
+        required={props.required}
+      />
+
+      {(props.uiSchema['ui:description'] || props.schema.description) && (
+        <ArrayFieldDescription
+          key={`array-field-description-${props.idSchema.$id}`}
+          DescriptionField={props.DescriptionField}
           idSchema={props.idSchema}
-          title={props.uiSchema['ui:title'] || props.title}
-          required={props.required}
+          description={
+            props.uiSchema['ui:description'] || props.schema.description
+          }
         />
+      )}
 
-        {(props.uiSchema['ui:description'] || props.schema.description) && (
-          <ArrayFieldDescription
-            key={`array-field-description-${props.idSchema.$id}`}
-            DescriptionField={props.DescriptionField}
-            idSchema={props.idSchema}
-            description={
-              props.uiSchema['ui:description'] || props.schema.description
-            }
-          />
-        )}
-
-        <Grid container={true} key={`array-item-list-${props.idSchema.$id}`}>
-          {props.items &&
-            props.items.map(p =>
-              DefaultArrayItem({ ...p, uiSchema: props.uiSchema })
-            )}
-
-          {props.canAdd && (
-            <Grid container justify="flex-end">
-              <Grid item={true}>
-                <Box mt={2}>
-                  <AddButton
-                    className="array-item-add"
-                    onClick={props.onAddClick}
-                    disabled={props.disabled || props.readonly}
-                    {...(props.uiSchema['ui:options'] && {
-                      label: props.uiSchema['ui:options'][
-                        'addButtonLabel'
-                      ] as string,
-                    })}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
+      <Grid container={true} key={`array-item-list-${props.idSchema.$id}`}>
+        {props.items &&
+          props.items.map(p =>
+            DefaultArrayItem({ ...p, uiSchema: props.uiSchema })
           )}
-        </Grid>
-      </Box>
-    </Paper>
+
+        {props.canAdd && (
+          <Grid container justify="flex-end">
+            <Grid item={true}>
+              <Box mt={2}>
+                <AddButton
+                  className="array-item-add"
+                  onClick={props.onAddClick}
+                  disabled={props.disabled || props.readonly}
+                  {...(props.uiSchema['ui:options'] && {
+                    label: props.uiSchema['ui:options'][
+                      'addButtonLabel'
+                    ] as string,
+                  })}
+                />
+              </Box>
+            </Grid>
+          </Grid>
+        )}
+      </Grid>
+    </>
+  );
+
+  return (
+    <>
+      {' '}
+      {props.uiSchema['ui:nobox'] ? (
+        { innerArrayContent }
+      ) : (
+        <Paper elevation={2}>
+          <Box p={2}>{innerArrayContent}</Box>
+        </Paper>
+      )}
+    </>
   );
 };
 
