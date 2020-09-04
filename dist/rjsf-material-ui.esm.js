@@ -628,7 +628,6 @@ var ObjectFieldTemplate = function ObjectFieldTemplate(_ref) {
     uiSchema = _ref.uiSchema,
     idSchema = _ref.idSchema;
   var classes = useStyles$1();
-  console.log(properties);
   return React.createElement(
     React.Fragment,
     null,
