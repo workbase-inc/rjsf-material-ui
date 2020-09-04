@@ -23,8 +23,6 @@ const ObjectFieldTemplate = ({
 }: ObjectFieldTemplateProps) => {
   const classes = useStyles();
 
-  console.log(properties);
-
   return (
     <>
       {(uiSchema['ui:title'] || (uiSchema['ui:title'] !== false && title)) && (
