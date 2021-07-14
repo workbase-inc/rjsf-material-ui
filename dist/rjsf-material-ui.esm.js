@@ -436,9 +436,7 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
     null,
     ' ',
     props.uiSchema['ui:nobox']
-      ? {
-          innerArrayContent: innerArrayContent,
-        }
+      ? innerArrayContent
       : React.createElement(
           Paper,
           {
