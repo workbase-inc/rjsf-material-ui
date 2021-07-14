@@ -185,7 +185,7 @@ const DefaultFixedArrayFieldTemplate = (props: ArrayFieldTemplateProps) => {
     <>
       {' '}
       {props.uiSchema['ui:nobox'] ? (
-        { innerArrayContent }
+        innerArrayContent
       ) : (
         <Paper elevation={2}>
           <Box p={2}>{innerArrayContent}</Box>

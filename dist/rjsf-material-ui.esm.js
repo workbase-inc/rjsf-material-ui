@@ -344,9 +344,7 @@ var DefaultFixedArrayFieldTemplate = function DefaultFixedArrayFieldTemplate(
     null,
     ' ',
     props.uiSchema['ui:nobox']
-      ? {
-          innerArrayContent: innerArrayContent,
-        }
+      ? innerArrayContent
       : React.createElement(
           Paper,
           {
@@ -393,13 +391,9 @@ var DefaultNormalArrayFieldTemplate = function DefaultNormalArrayFieldTemplate(
       props.items &&
         props.items.map(function(p) {
           return DefaultArrayItem(
-            _extends(
-              _extends({}, p),
-              {},
-              {
-                uiSchema: props.uiSchema,
-              }
-            )
+            _extends({}, p, {
+              uiSchema: props.uiSchema,
+            })
           );
         }),
       props.canAdd &&
@@ -1768,10 +1762,10 @@ var _getDefaultRegistry = /*#__PURE__*/ getDefaultRegistry(),
 
 var Theme = {
   ArrayFieldTemplate: ArrayFieldTemplate,
-  fields: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, fields), Fields),
+  fields: /*#__PURE__*/ _extends({}, fields, Fields),
   FieldTemplate: FieldTemplate,
   ObjectFieldTemplate: ObjectFieldTemplate,
-  widgets: /*#__PURE__*/ _extends(/*#__PURE__*/ _extends({}, widgets), Widgets),
+  widgets: /*#__PURE__*/ _extends({}, widgets, Widgets),
   ErrorList: ErrorList,
 };
 
